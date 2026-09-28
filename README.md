@@ -25,49 +25,48 @@ The system is designed to make the reasoning process more transparent rather tha
 
 ## ⚙️ How It Works
 
-```text
-                    ┌─────────────────┐
-                    │   User Query    │
-                    └────────┬────────┘
-                             │
-                             ▼
-                 ┌───────────────────────┐
-                 │    AI Council Engine  │
-                 └───────────┬───────────┘
-                             │
-              ┌──────────────┼──────────────┐
-              │              │              │
-              ▼              ▼              ▼
-        ┌──────────┐   ┌──────────┐   ┌──────────┐
-        │ Model 1  │   │ Model 2  │   │ Model 3  │
-        └──────────┘   └──────────┘   └──────────┘
-              │              │              │
-              └──────────────┼──────────────┘
-                             │
-                      ┌──────▼──────┐
-                      │   Model 4   │
-                      └──────┬──────┘
-                             │
-                             ▼
-                 ┌──────────────────────┐
-                 │   Chairman Model     │
-                 │                      │
-                 │ Compare responses    │
-                 │ Find agreements      │
-                 │ Find disagreements   │
-                 │ Identify gaps        │
-                 │ Synthesize analysis  │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                  ┌──────────────────┐
 
-                  │   Final Verdict  │
-                  └──────────────────┘
-## 🖥️ Interface
+```
+┌─────────────────┐
+│   User Query    │
+└────────┬────────┘
+         │
+         ▼
+┌───────────────────────┐
+│    AI Council Engine  │
+└───────────┬───────────┘
+            │
+   ┌────────┼────────┐
+   │        │        │
+   ▼        ▼        ▼
+┌────────┐┌────────┐┌────────┐
+│Model 1 ││Model 2 ││Model 3 │
+└────────┘└────────┘└────────┘
+   │        │        │
+   └────────┼────────┘
+            │
+     ┌──────▼──────┐
+     │   Model 4   │
+     └──────┬──────┘
+            │
+            ▼
+┌──────────────────────┐
+│   Chairman Model     │
+│                      │
+│ Compare responses    │
+│ Find agreements      │
+│ Find disagreements   │
+│ Identify gaps        │
+│ Synthesize analysis  │
+└──────────┬───────────┘
+           │
+           ▼
+ ┌──────────────────┐
+ │   Final Verdict  │
+ └──────────────────┘
+```
 
-![AI Council Interface](https://github.com/user-attachments/assets/0de18d79-a00e-44df-aed6-819f8d98fe14)
+<img width="1580" height="945" alt="image" src="https://github.com/user-attachments/assets/771c5eef-34e6-4c11-9b5d-5824a42a4024" />
 
-## 🧑‍⚖️ Final Verdict
+<img width="1223" height="527" alt="image" src="https://github.com/user-attachments/assets/df97d569-3292-4d42-9cdc-72f14df80822" />
 
-![AI Council Verdict](https://github.com/user-attachments/assets/a079d49b-3b47-4487-8b9e-8ba340d94f49)
