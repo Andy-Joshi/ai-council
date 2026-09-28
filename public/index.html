@@ -1,0 +1,4628 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AI Council</title>
+
+  <style>
+
+    * {
+
+      box-sizing: border-box;
+
+    }
+
+    :root {
+
+      --bg: #f4f5f7;
+
+      --panel: rgba(255,255,255,0.92);
+
+      --panel-2: #eef0f3;
+
+      --border: rgba(17,24,39,0.10);
+
+      --border-bright: rgba(249,115,22,0.30);
+
+      --text: #17191d;
+
+      --muted: #667085;
+
+      --muted-2: #8a93a3;
+
+      --purple: #f97316;
+
+      --purple-2: #ea580c;
+
+      --blue: #6b7280;
+
+      --green: #35d399;
+
+      --red: #ff5c7a;
+
+      --orange: #fb923c;
+
+      --shadow:
+
+        0 25px 80px rgba(0,0,0,.45);
+
+      --radius: 20px;
+
+    }
+
+    html {
+
+      scroll-behavior: smooth;
+
+    }
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      font-family:
+
+        Inter,
+
+        ui-sans-serif,
+
+        system-ui,
+
+        -apple-system,
+
+        BlinkMacSystemFont,
+
+        "Segoe UI",
+
+        sans-serif;
+
+      color: var(--text);
+
+      background: var(--bg);
+
+      overflow-x: hidden;
+
+    }
+
+    /* =========================
+
+       BACKGROUND
+
+       ========================= */
+
+    body::before {
+
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      background:
+
+        radial-gradient(
+
+          circle at 15% 10%,
+
+          rgba(124,92,255,.16),
+
+          transparent 28%
+
+        ),
+
+        radial-gradient(
+
+          circle at 85% 15%,
+
+          rgba(79,140,255,.12),
+
+          transparent 26%
+
+        ),
+
+        radial-gradient(
+
+          circle at 50% 90%,
+
+          rgba(124,92,255,.08),
+
+          transparent 30%
+
+        );
+
+    }
+
+    body::after {
+
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: .22;
+
+      background-image:
+
+        linear-gradient(
+
+          rgba(255,255,255,.025) 1px,
+
+          transparent 1px
+
+        ),
+
+        linear-gradient(
+
+          90deg,
+
+          rgba(255,255,255,.025) 1px,
+
+          transparent 1px
+
+        );
+
+      background-size: 50px 50px;
+
+      mask-image:
+
+        linear-gradient(
+
+          to bottom,
+
+          black,
+
+          transparent 85%
+
+        );
+
+    }
+
+    /* =========================
+
+       LAYOUT
+
+       ========================= */
+
+    .container {
+
+      position: relative;
+
+      z-index: 2;
+
+      width: min(1180px, 92%);
+
+      margin: 0 auto;
+
+      padding: 55px 0 100px;
+
+    }
+
+    /* =========================
+
+       TOP BAR
+
+       ========================= */
+
+    .topbar {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 60px;
+
+    }
+
+    .brand {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      font-weight: 800;
+
+      letter-spacing: -.5px;
+
+    }
+
+    .brand-icon {
+
+      width: 42px;
+
+      height: 42px;
+
+      display: grid;
+
+      place-items: center;
+
+      border-radius: 13px;
+
+      background:
+
+        linear-gradient(
+
+          135deg,
+
+          #7c5cff,
+
+          #4f8cff
+
+        );
+
+      box-shadow:
+
+        0 10px 35px rgba(124,92,255,.35);
+
+    }
+
+    .brand-name {
+
+      font-size: 17px;
+
+    }
+
+    .live-pill {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 8px 13px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,.035);
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+    }
+
+    .live-dot {
+
+      width: 7px;
+
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+
+      box-shadow:
+
+        0 0 12px var(--green);
+
+    }
+
+    /* =========================
+
+       HERO
+
+       ========================= */
+
+    .hero {
+
+      text-align: center;
+
+      max-width: 850px;
+
+      margin: 0 auto 45px;
+
+    }
+
+    .eyebrow {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      padding: 8px 13px;
+
+      border: 1px solid var(--border-bright);
+
+      border-radius: 999px;
+
+      color: var(--purple-2);
+
+      background:
+
+        rgba(124,92,255,.08);
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      letter-spacing: .7px;
+
+      text-transform: uppercase;
+
+    }
+
+    .hero h1 {
+
+      margin: 22px 0 14px;
+
+      font-size: clamp(48px, 8vw, 82px);
+
+      line-height: .95;
+
+      letter-spacing: -5px;
+
+      background:
+
+        linear-gradient(
+
+          120deg,
+
+          #ffffff 20%,
+
+          #a78bfa 55%,
+
+          #6ea8ff
+
+        );
+
+      -webkit-background-clip: text;
+
+      background-clip: text;
+
+      color: transparent;
+
+    }
+
+    .hero p {
+
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 17px;
+
+      line-height: 1.7;
+
+    }
+
+    .hero-stats {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 10px;
+
+      margin-top: 25px;
+
+      flex-wrap: wrap;
+
+    }
+
+    .stat {
+
+      padding: 9px 13px;
+
+      border-radius: 999px;
+
+      background: rgba(255,255,255,.035);
+
+      border: 1px solid var(--border);
+
+      color: #aeb5c7;
+
+      font-size: 12px;
+
+    }
+
+    /* =========================
+
+       CARD
+
+       ========================= */
+
+    .card {
+
+      position: relative;
+
+      background:
+
+        linear-gradient(
+
+          145deg,
+
+          rgba(18,24,40,.92),
+
+          rgba(10,14,25,.92)
+
+        );
+
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      padding: 25px;
+
+      margin-bottom: 20px;
+
+      box-shadow: var(--shadow);
+
+      backdrop-filter: blur(18px);
+
+    }
+
+    .card-title-row {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 15px;
+
+      margin-bottom: 18px;
+
+    }
+
+    .card-title {
+
+      margin: 0;
+
+      font-size: 17px;
+
+      letter-spacing: -.3px;
+
+    }
+
+    .card-subtitle {
+
+      color: var(--muted-2);
+
+      font-size: 12px;
+
+      margin-top: 4px;
+
+    }
+
+    /* =========================
+
+       QUESTION
+
+       ========================= */
+
+    .question-card {
+
+      border-color:
+
+        rgba(124,92,255,.22);
+
+    }
+
+    .question-wrapper {
+
+      position: relative;
+
+    }
+
+    textarea {
+
+      width: 100%;
+
+      min-height: 155px;
+
+      resize: vertical;
+
+      border: 1px solid rgba(255,255,255,.08);
+
+      border-radius: 17px;
+
+      padding: 20px 20px 45px;
+
+      background:
+
+        rgba(5,8,16,.72);
+
+      color: white;
+
+      font-size: 17px;
+
+      line-height: 1.6;
+
+      outline: none;
+
+      transition: .2s;
+
+    }
+
+    textarea::placeholder {
+
+      color: #596174;
+
+    }
+
+    textarea:focus {
+
+      border-color:
+
+        rgba(124,92,255,.65);
+
+      box-shadow:
+
+        0 0 0 4px rgba(124,92,255,.08);
+
+    }
+
+    .char-count {
+
+      position: absolute;
+
+      right: 15px;
+
+      bottom: 13px;
+
+      color: #525b70;
+
+      font-size: 11px;
+
+    }
+
+    .button-row {
+
+      display: flex;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      margin-top: 14px;
+
+    }
+
+    button {
+
+      border: 0;
+
+      border-radius: 12px;
+
+      padding: 12px 17px;
+
+      color: white;
+
+      background:
+
+        rgba(255,255,255,.07);
+
+      border: 1px solid rgba(255,255,255,.08);
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      transition:
+
+        transform .2s,
+
+        border-color .2s,
+
+background .2s,
+
+        box-shadow .2s;
+
+    }
+
+    button:hover {
+
+      transform: translateY(-2px);
+
+      border-color:
+
+        rgba(255,255,255,.18);
+
+    }
+
+    button:disabled {
+
+      opacity: .45;
+
+      cursor: not-allowed;
+
+      transform: none;
+
+    }
+
+    .primary {
+
+      background:
+
+        linear-gradient(
+
+          135deg,
+
+          #7c5cff,
+
+          #5d7cff
+
+        );
+
+      border: none;
+
+      box-shadow:
+
+        0 12px 30px rgba(92,80,255,.22);
+
+    }
+
+    .primary:hover {
+
+      box-shadow:
+
+        0 15px 38px rgba(92,80,255,.34);
+
+    }
+
+    .voice-btn {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+    }
+
+    .danger {
+
+      background:
+
+        rgba(255,92,122,.12);
+
+      border-color:
+
+        rgba(255,92,122,.35);
+
+      color: #ff8da3;
+
+    }
+
+    .status {
+
+      min-height: 20px;
+
+      margin-top: 14px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+    }
+
+    .examples {
+
+      display: flex;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+
+      margin-top: 14px;
+
+    }
+
+    .example {
+
+      padding: 8px 11px;
+
+      border-radius: 9px;
+
+      color: #8f98ab;
+
+      background:
+
+        rgba(255,255,255,.025);
+
+      border: 1px solid var(--border);
+
+      font-size: 11px;
+
+      cursor: pointer;
+
+    }
+
+    .example:hover {
+
+      color: white;
+
+      border-color:
+
+        rgba(124,92,255,.4);
+
+    }
+
+    /* =========================
+
+       MODELS
+
+       ========================= */
+
+    .model-count {
+
+      padding: 7px 11px;
+
+      border-radius: 999px;
+
+      background:
+
+        rgba(53,211,153,.08);
+
+      border:
+
+        1px solid rgba(53,211,153,.2);
+
+      color: #66e6b0;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+    }
+
+    .model-slots {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(2, 1fr);
+
+      gap: 13px;
+
+    }
+
+    .model-slot {
+
+      position: relative;
+
+      padding: 18px;
+
+      border-radius: 16px;
+
+      background:
+
+        rgba(5,8,16,.5);
+
+      border:
+
+        1px solid var(--border);
+
+      transition: .2s;
+
+    }
+
+    .model-slot:hover {
+
+      border-color:
+
+        rgba(124,92,255,.3);
+
+      transform: translateY(-2px);
+
+    }
+
+    .model-slot-top {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 14px;
+
+    }
+
+    .model-index {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      color: #b8bfd0;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+    }
+
+    .model-dot {
+
+      width: 9px;
+
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: var(--purple);
+
+      box-shadow:
+
+        0 0 12px rgba(124,92,255,.65);
+
+    }
+
+    .ready {
+
+      color: #5ee6ae;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: .6px;
+
+    }
+
+    select {
+
+      width: 100%;
+
+      padding: 12px;
+
+      color: white;
+
+      background: #101625;
+
+      border: 1px solid #293248;
+
+      border-radius: 11px;
+
+      outline: none;
+
+      font-size: 13px;
+
+    }
+
+    select:focus {
+
+      border-color:
+
+        rgba(124,92,255,.7);
+
+    }
+
+    .remove-model {
+
+      margin-top: 9px;
+
+      padding: 7px 10px;
+
+      font-size: 11px;
+
+      color: #8992a5;
+
+      background: rgba(255,255,255,.04);
+
+    }
+
+    .model-info {
+
+      margin-top: 15px;
+
+      color: var(--muted-2);
+
+      font-size: 12px;
+
+      line-height: 1.6;
+
+    }
+
+    /* =========================
+
+       SESSION LOADER
+
+       ========================= */
+
+    .session {
+
+      display: none;
+
+    }
+
+    .session.active {
+
+      display: block;
+
+      animation:
+
+        fadeUp .45s ease;
+
+    }
+
+    .session-header {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      margin-bottom: 18px;
+
+    }
+
+    .session-label {
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1px;
+
+    }
+
+    .pulse {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      color: #9c8cff;
+
+      font-size: 12px;
+
+    }
+
+    .pulse::before {
+
+      content: "";
+
+      width: 8px;
+
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--purple);
+
+      animation: pulse 1s infinite;
+
+    }
+
+    .progress-line {
+
+      height: 4px;
+
+      width: 100%;
+
+      overflow: hidden;
+
+      border-radius: 99px;
+
+      background: #171d2c;
+
+      margin-bottom: 18px;
+
+    }
+
+    .progress-line::after {
+
+      content: "";
+
+      display: block;
+
+      height: 100%;
+
+      width: 35%;
+
+      border-radius: inherit;
+
+      background:
+
+        linear-gradient(
+
+          90deg,
+
+          transparent,
+
+          #7c5cff,
+
+          #65a3ff,
+
+          transparent
+
+        );
+
+      animation:
+
+        progress 1.3s infinite;
+
+    }
+
+    .session-steps {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+    }
+
+    .step {
+
+      padding: 13px;
+
+      border-radius: 13px;
+
+      background: rgba(255,255,255,.025);
+
+      border: 1px solid var(--border);
+
+      color: #788196;
+
+      font-size: 12px;
+
+    }
+
+    .step.active {
+
+      color: white;
+
+      border-color:
+
+        rgba(124,92,255,.4);
+
+      background:
+
+        rgba(124,92,255,.08);
+
+    }
+
+    /* =========================
+
+       RESULT
+
+       ========================= */
+
+    #result {
+
+      display: none;
+
+    }
+
+    .result-visible {
+
+      display: block !important;
+
+      animation:
+
+        fadeUp .55s ease;
+
+    }
+
+    /* =========================
+
+       VERDICT
+
+       ========================= */
+
+    .verdict-card {
+
+      overflow: hidden;
+
+      border:
+
+        1px solid rgba(124,92,255,.4);
+
+      background:
+
+        radial-gradient(
+
+          circle at 85% 10%,
+
+          rgba(124,92,255,.16),
+
+          transparent 30%
+
+        ),
+
+        linear-gradient(
+
+          145deg,
+
+          rgba(23,24,54,.95),
+
+          rgba(10,14,26,.95)
+
+        );
+
+    }
+
+    .verdict-top {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: flex-start;
+
+      gap: 20px;
+
+    }
+
+    .chairman-label {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      color: #a89bff;
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      letter-spacing: 1px;
+
+      text-transform: uppercase;
+
+    }
+
+    .chairman-label span {
+
+      width: 8px;
+
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: #9b87ff;
+
+      box-shadow:
+
+        0 0 14px #7c5cff;
+
+    }
+
+    .confidence-badge {
+
+      padding: 8px 12px;
+
+      border-radius: 999px;
+
+      background:
+
+        rgba(53,211,153,.08);
+
+      border:
+
+        1px solid rgba(53,211,153,.2);
+
+      color: #68e7b1;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+
+    }
+
+    .verdict-text {
+
+      margin: 23px 0;
+
+      font-size:
+
+        clamp(20px, 3vw, 28px);
+
+      line-height: 1.45;
+
+      letter-spacing: -.5px;
+
+      color: #f7f8ff;
+
+    }
+
+    .verdict-actions {
+
+      display: flex;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+    }
+
+    /* =========================
+
+       ANALYSIS
+
+       ========================= */
+
+    .grid {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(2, 1fr);
+
+      gap: 13px;
+
+    }
+
+    .mini-card {
+
+      padding: 19px;
+
+      min-height: 150px;
+
+      border-radius: 16px;
+
+      background:
+
+        rgba(6,9,17,.56);
+
+      border: 1px solid var(--border);
+
+      transition: .2s;
+
+    }
+
+    .mini-card:hover {
+
+      border-color:
+
+        rgba(124,92,255,.25);
+
+    }
+
+    .mini-card h4 {
+
+      margin: 0 0 13px;
+
+      color: #dce0eb;
+
+      font-size: 13px;
+
+    }
+
+    .mini-card p,
+
+    .mini-card li {
+
+      color: #969fb1;
+
+      line-height: 1.65;
+
+      font-size: 13px;
+
+    }
+
+    .mini-card ul {
+
+      padding-left: 18px;
+
+      margin: 0;
+
+    }
+
+    /* =========================
+
+       COUNCIL RESPONSES
+
+       ========================= */
+
+    .council-grid {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(2, 1fr);
+
+      gap: 13px;
+
+    }
+
+    .council-model {
+
+      overflow: hidden;
+
+      border-radius: 16px;
+
+      border: 1px solid var(--border);
+
+      background:
+
+        rgba(6,9,17,.55);
+
+    }
+
+    .council-model-header {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 15px 16px;
+
+      border-bottom:
+
+        1px solid var(--border);
+
+    }
+
+    .model-name-wrap {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      min-width: 0;
+
+    }
+
+    .model-color {
+
+      width: 9px;
+
+      height: 9px;
+
+      flex-shrink: 0;
+
+      border-radius: 50%;
+
+      background: var(--blue);
+
+      box-shadow:
+
+        0 0 12px rgba(79,140,255,.55);
+
+    }
+
+    .model-name {
+
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+
+      color: #dfe3ed;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+    }
+
+    .model-status {
+
+      color: #58dca7;
+
+      font-size: 9px;
+
+      text-transform: uppercase;
+
+      letter-spacing: .6px;
+
+    }
+
+    .model-answer {
+
+      max-height: 230px;
+
+      overflow: auto;
+
+      padding: 16px;
+
+      color: #949daf;
+
+      font-size: 13px;
+
+      line-height: 1.7;
+
+      white-space: pre-wrap;
+
+    }
+
+    .model-answer::-webkit-scrollbar {
+
+      width: 5px;
+
+    }
+
+    .model-answer::-webkit-scrollbar-thumb {
+
+      background: #293148;
+
+      border-radius: 99px;
+
+    }
+
+    /* =========================
+
+       PERFORMANCE
+
+       ========================= */
+
+    .performance {
+
+      display: grid;
+
+      grid-template-columns:
+
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+      margin-top: 15px;
+
+    }
+
+    .performance-item {
+
+      padding: 14px;
+
+      border-radius: 13px;
+
+      background:
+
+        rgba(255,255,255,.025);
+
+      border: 1px solid var(--border);
+
+      text-align: center;
+
+    }
+
+    .performance-value {
+
+      color: #e9ecf5;
+
+      font-size: 17px;
+
+      font-weight: 800;
+
+    }
+
+    .performance-label {
+
+      color: #687185;
+
+      margin-top: 4px;
+
+      font-size: 10px;
+
+      text-transform: uppercase;
+
+      letter-spacing: .6px;
+
+    }
+
+    /* =========================
+
+       FOOTER
+
+       ========================= */
+
+    footer {
+
+      text-align: center;
+
+      margin-top: 50px;
+
+      color: #424a5d;
+
+      font-size: 11px;
+
+    }
+
+    /* =========================
+
+       ANIMATIONS
+
+       ========================= */
+
+    @keyframes fadeUp {
+
+      from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+      }
+
+      to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+      }
+
+    }
+
+    @keyframes pulse {
+
+      0%,100% {
+
+        transform: scale(1);
+
+        opacity: 1;
+
+      }
+
+      50% {
+
+        transform: scale(1.8);
+
+        opacity: .45;
+
+      }
+
+    }
+
+    @keyframes progress {
+
+      from {
+
+        transform: translateX(-120%);
+
+      }
+
+      to {
+
+        transform: translateX(350%);
+
+      }
+
+    }
+
+    /* =========================
+
+       RESPONSIVE
+
+       ========================= */
+
+    @media(max-width: 800px) {
+
+      .model-slots,
+
+      .grid,
+
+      .council-grid {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      .session-steps {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      .hero h1 {
+
+        letter-spacing: -3px;
+
+      }
+
+    }
+
+    @media(max-width: 600px) {
+
+      .container {
+
+        width: 94%;
+
+        padding-top: 25px;
+
+      }
+
+      .topbar {
+
+        margin-bottom: 40px;
+
+      }
+
+      .live-pill {
+
+        display: none;
+
+      }
+
+      .card {
+
+        padding: 18px;
+
+      }
+
+      .hero {
+
+        margin-bottom: 30px;
+
+      }
+
+      textarea {
+
+        min-height: 130px;
+
+      }
+
+      .button-row button {
+
+        flex: 1;
+
+      }
+
+      .performance {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      .verdict-top {
+
+        flex-direction: column;
+
+      }
+
+    }
+
+
+
+    /* =====================================================
+       PREMIUM LIGHT / ORANGE POLISH
+       ===================================================== */
+    body {
+      background:
+        radial-gradient(circle at 8% 0%, rgba(249,115,22,.10), transparent 25%),
+        radial-gradient(circle at 92% 12%, rgba(148,163,184,.14), transparent 28%),
+        linear-gradient(180deg, #f8fafc 0%, #f3f4f6 100%);
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 8% 8%, rgba(249,115,22,.12), transparent 24%),
+        radial-gradient(circle at 92% 18%, rgba(148,163,184,.10), transparent 26%),
+        radial-gradient(circle at 50% 92%, rgba(249,115,22,.05), transparent 30%);
+      opacity: 1;
+    }
+
+    body::after {
+      opacity: .32;
+      background-image:
+        linear-gradient(rgba(15,23,42,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,23,42,.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    .container { padding-top: 38px; }
+
+    .brand-icon {
+      background: linear-gradient(135deg, #111827, #f97316);
+      box-shadow: 0 12px 28px rgba(249,115,22,.22);
+      color: #fff;
+    }
+
+    .brand-name { color: #111827; letter-spacing: .4px; }
+
+    .live-pill {
+      background: rgba(255,255,255,.78);
+      border-color: rgba(17,24,39,.10);
+      color: #667085;
+      box-shadow: 0 8px 24px rgba(15,23,42,.05);
+    }
+
+    .eyebrow {
+      color: #c2410c;
+      background: rgba(249,115,22,.07);
+      border-color: rgba(249,115,22,.22);
+      box-shadow: 0 8px 28px rgba(249,115,22,.07);
+    }
+
+    .hero h1 {
+      background: linear-gradient(120deg, #111827 18%, #343a46 58%, #ea580c 92%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero p { color: #667085; }
+
+    .stat {
+      background: rgba(255,255,255,.74);
+      border-color: rgba(17,24,39,.08);
+      color: #596273;
+      box-shadow: 0 5px 18px rgba(15,23,42,.035);
+    }
+
+    .card {
+      background: rgba(255,255,255,.90);
+      border-color: rgba(17,24,39,.085);
+      box-shadow: 0 18px 55px rgba(15,23,42,.065), 0 2px 8px rgba(15,23,42,.025);
+      backdrop-filter: blur(16px);
+    }
+
+    .card:hover {
+      border-color: rgba(17,24,39,.13);
+    }
+
+    .card-title { color: #181b21; }
+    .card-subtitle { color: #8a93a3; }
+
+    .question-card {
+      border-color: rgba(249,115,22,.18);
+      box-shadow: 0 20px 65px rgba(249,115,22,.065), 0 2px 8px rgba(15,23,42,.025);
+    }
+
+    textarea {
+      background: #f8fafc;
+      border-color: #e2e6eb;
+      color: #17191d;
+      box-shadow: inset 0 1px 2px rgba(15,23,42,.025);
+    }
+
+    textarea::placeholder { color: #9aa3b2; }
+
+    textarea:focus {
+      border-color: rgba(249,115,22,.58);
+      box-shadow: 0 0 0 4px rgba(249,115,22,.09), 0 8px 24px rgba(15,23,42,.035);
+      background: #fff;
+    }
+
+    .char-count { color: #9aa3b2; }
+
+    button {
+      color: #252a33;
+      background: #fff;
+      border-color: #e2e6eb;
+      box-shadow: 0 5px 16px rgba(15,23,42,.045);
+    }
+
+    button:hover {
+      border-color: #cfd5dd;
+      box-shadow: 0 9px 24px rgba(15,23,42,.075);
+    }
+
+    .primary {
+      color: #fff;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      box-shadow: 0 12px 28px rgba(249,115,22,.23);
+    }
+
+    .primary:hover {
+      box-shadow: 0 16px 34px rgba(249,115,22,.30);
+    }
+
+    .voice-btn {
+      background: #f8fafc;
+      color: #4b5563;
+    }
+
+    .danger {
+      color: #dc2626;
+      background: #fff1f2;
+      border-color: #fecdd3;
+    }
+
+    .status { color: #737d8e; }
+
+    .example {
+      color: #6b7280;
+      background: #f8fafc;
+      border-color: #e5e7eb;
+    }
+
+    .example:hover {
+      color: #c2410c;
+      border-color: rgba(249,115,22,.32);
+      background: #fff7ed;
+    }
+
+    .model-count {
+      background: #ecfdf5;
+      border-color: #bbf7d0;
+      color: #15803d;
+    }
+
+    .model-slot {
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      border-color: #e5e7eb;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+    }
+
+    .model-slot:hover {
+      border-color: rgba(249,115,22,.32);
+      box-shadow: 0 10px 28px rgba(15,23,42,.06);
+    }
+
+    .model-index { color: #4b5563; }
+
+    .model-dot {
+      background: #f97316;
+      box-shadow: 0 0 0 4px rgba(249,115,22,.10);
+    }
+
+    .ready { color: #16a34a; }
+
+    select {
+      color: #252a33;
+      background: #f8fafc;
+      border-color: #dfe3e8;
+    }
+
+    select:focus {
+      border-color: rgba(249,115,22,.60);
+      box-shadow: 0 0 0 3px rgba(249,115,22,.08);
+    }
+
+    .remove-model {
+      color: #6b7280;
+      background: #f3f4f6;
+    }
+
+    .model-info { color: #8a93a3; }
+
+    .session {
+      border-color: rgba(249,115,22,.18);
+      background: rgba(255,255,255,.94);
+    }
+
+    .session-label { color: #6b7280; }
+
+    .pulse { color: #c2410c; }
+    .pulse::before { background: #f97316; box-shadow: 0 0 0 5px rgba(249,115,22,.10); }
+
+    .progress-line { background: #eceff2; }
+
+    .progress-line::after {
+      background: linear-gradient(90deg, transparent, #f97316, #fb923c, transparent);
+    }
+
+    .step {
+      background: #f8fafc;
+      border-color: #e5e7eb;
+      color: #8a93a3;
+    }
+
+    .step.active {
+      color: #9a3412;
+      border-color: rgba(249,115,22,.30);
+      background: #fff7ed;
+      box-shadow: inset 3px 0 0 #f97316;
+    }
+
+    .verdict-card {
+      position: relative;
+      border-color: rgba(249,115,22,.34);
+      background:
+        radial-gradient(circle at 92% 8%, rgba(249,115,22,.17), transparent 27%),
+        radial-gradient(circle at 8% 100%, rgba(148,163,184,.10), transparent 30%),
+        linear-gradient(145deg, #ffffff 0%, #fffaf6 100%);
+      box-shadow: 0 24px 75px rgba(249,115,22,.10), 0 2px 10px rgba(15,23,42,.035);
+    }
+
+    .verdict-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg, #f97316, #fb923c);
+    }
+
+    .chairman-label { color: #c2410c; }
+    .chairman-label span { background: #f97316; box-shadow: 0 0 0 5px rgba(249,115,22,.10); }
+
+    .confidence-badge {
+      background: #ecfdf5;
+      border-color: #bbf7d0;
+      color: #15803d;
+    }
+
+    .verdict-text {
+      color: #17191d;
+      font-weight: 750;
+      max-width: 920px;
+    }
+
+    .mini-card {
+      background: #fbfcfd;
+      border-color: #e5e7eb;
+    }
+
+    .mini-card:hover {
+      border-color: rgba(249,115,22,.24);
+      box-shadow: 0 10px 25px rgba(15,23,42,.045);
+    }
+
+    .mini-card h4 { color: #303640; }
+    .mini-card p, .mini-card li { color: #697386; }
+
+    .council-model {
+      background: #fbfcfd;
+      border-color: #e5e7eb;
+    }
+
+    .council-model-header { border-bottom-color: #e8ebef; }
+    .model-color { background: #f97316; box-shadow: 0 0 0 4px rgba(249,115,22,.09); }
+    .model-name { color: #303640; }
+    .model-status { color: #16a34a; }
+    .model-answer { color: #697386; }
+    .model-answer::-webkit-scrollbar-thumb { background: #d4d9e0; }
+
+    .performance-item {
+      background: #f8fafc;
+      border-color: #e5e7eb;
+    }
+
+    .performance-value { color: #252a33; }
+    .performance-label { color: #8a93a3; }
+
+    footer { color: #9aa3b2; }
+
+    @media(max-width: 600px) {
+      .container { padding-top: 22px; }
+      .hero h1 { font-size: clamp(42px, 15vw, 68px); }
+    }
+
+  .hero-accent {
+      background: linear-gradient(120deg, #ea580c, #f97316);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- =========================
+
+       TOP BAR
+
+       ========================= -->
+
+  <div class="topbar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+
+        ⚖️
+
+      </div>
+
+      <div class="brand-name">
+
+        AI COUNCIL
+
+      </div>
+
+    </div>
+
+    <div class="live-pill">
+
+      <span class="live-dot"></span>
+
+      Council Online
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+
+       HERO
+
+       ========================= -->
+
+  <section class="hero">
+
+    <div class="eyebrow">
+
+      ✦ Multi-Model Decision Engine
+
+    </div>
+
+    <h1>
+
+      AI <span class="hero-accent">Council</span>
+
+    </h1>
+
+    <p>
+
+      Multiple AI models analyze the problem independently.
+
+      A Chairman compares their reasoning and delivers the final verdict.
+
+    </p>
+
+    <div class="hero-stats">
+
+      <div class="stat">
+
+        4 Council Models
+
+      </div>
+
+      <div class="stat">
+
+        1 Chairman
+
+      </div>
+
+      <div class="stat">
+
+        Parallel Reasoning
+
+      </div>
+
+      <div class="stat">
+
+        Voice Enabled
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================
+
+       QUESTION
+
+       ========================= -->
+
+  <div class="card question-card">
+
+    <div class="card-title-row">
+
+      <div>
+
+        <h2 class="card-title">
+
+          Ask the Council
+
+        </h2>
+
+        <div class="card-subtitle">
+
+          Give the council a question worth debating.
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="question-wrapper">
+
+      <textarea
+
+        id="question"
+
+        maxlength="3000"
+
+        placeholder="What should the council analyze?"
+
+      ></textarea>
+
+      <div
+
+        class="char-count"
+
+        id="charCount"
+
+      >
+
+        0 / 3000
+
+      </div>
+
+    </div>
+
+    <div class="button-row">
+
+      <button
+
+        class="voice-btn"
+
+        id="voiceBtn"
+
+        onclick="toggleRecording()"
+
+      >
+
+        🎤 Start Voice
+
+      </button>
+
+      <button
+
+        class="primary"
+
+        id="verdictBtn"
+
+        onclick="getVerdict()"
+
+      >
+
+        ⚡ Ask the Council
+
+      </button>
+
+    </div>
+
+    <div
+
+      id="status"
+
+      class="status"
+
+    ></div>
+
+    <div class="examples">
+
+      <button
+
+        class="example"
+
+        onclick="useExample(this)"
+
+      >
+
+        Should I build or buy?
+
+      </button>
+
+      <button
+
+        class="example"
+
+        onclick="useExample(this)"
+
+      >
+
+        Analyze this business idea
+
+      </button>
+
+      <button
+
+        class="example"
+
+        onclick="useExample(this)"
+
+      >
+
+        What are the risks?
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+
+       MODEL SELECTOR
+
+       ========================= -->
+
+  <div class="card">
+
+    <div class="card-title-row">
+
+      <div>
+
+        <h2 class="card-title">
+
+          Council Members
+
+        </h2>
+
+        <div class="card-subtitle">
+
+          Select the models that will debate your question.
+
+        </div>
+
+      </div>
+
+      <div
+
+        class="model-count"
+
+        id="modelCount"
+
+      >
+
+        4 / 4 SELECTED
+
+      </div>
+
+    </div>
+
+    <div
+
+      id="modelSlots"
+
+      class="model-slots"
+
+    ></div>
+
+    <div class="button-row">
+
+      <button
+
+        class="secondary"
+
+        id="addModelBtn"
+
+        onclick="addModelSlot()"
+
+      >
+
+        + Add Model
+
+      </button>
+
+    </div>
+
+    <div class="model-info">
+
+      Each selected model analyzes the question independently.
+
+      The Chairman receives their responses and synthesizes the final result.
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+
+       LIVE SESSION
+
+       ========================= -->
+
+  <div
+
+    class="card session"
+
+    id="session"
+
+  >
+
+    <div class="session-header">
+
+      <div class="session-label">
+
+        Council Session
+
+      </div>
+
+      <div class="pulse">
+
+        Processing
+
+      </div>
+
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="session-steps">
+
+      <div
+
+        class="step active"
+
+        id="stepCouncil"
+
+      >
+
+        🧠 Council Models
+
+      </div>
+
+      <div
+
+        class="step"
+
+        id="stepChairman"
+
+      >
+
+        👑 Chairman Review
+
+      </div>
+
+      <div
+
+        class="step"
+
+        id="stepVerdict"
+
+      >
+
+        ⚖️ Final Verdict
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =========================
+
+       RESULTS
+
+       ========================= -->
+
+  <div
+
+    id="result"
+
+  >
+
+    <!-- =====================
+
+         VERDICT
+
+         ===================== -->
+
+    <div class="card verdict-card">
+
+      <div class="verdict-top">
+
+        <div class="chairman-label">
+
+          <span></span>
+
+          Chairman's Verdict
+
+        </div>
+
+        <div
+
+          class="confidence-badge"
+
+          id="confidenceBadge"
+
+        >
+
+          Confidence — 0%
+
+        </div>
+
+      </div>
+
+      <div
+
+        id="finalVerdict"
+
+        class="verdict-text"
+
+      >
+
+        No verdict generated.
+
+      </div>
+
+      <div class="verdict-actions">
+
+        <button
+
+          id="speakBtn"
+
+          onclick="speakVerdict()"
+
+        >
+
+          🔊 Speak Verdict
+
+        </button>
+
+        <button
+
+          onclick="copyVerdict()"
+
+        >
+
+          📋 Copy Verdict
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =====================
+
+         CHAIRMAN ANALYSIS
+
+         ===================== -->
+
+    <div class="card">
+
+      <div class="card-title-row">
+
+        <div>
+
+          <h2 class="card-title">
+
+            Chairman Analysis
+
+          </h2>
+
+          <div class="card-subtitle">
+
+            How the Chairman reached the final result.
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="grid">
+
+        <div class="mini-card">
+
+          <h4>
+
+            🤝 Consensus
+
+          </h4>
+
+          <div id="agreements"></div>
+
+        </div>
+
+
+
+        <div class="mini-card">
+
+          <h4>
+
+            ⚔️ Disagreements
+
+          </h4>
+
+          <div id="disagreements"></div>
+
+        </div>
+
+
+
+        <div class="mini-card">
+
+          <h4>
+
+            🎯 Critical Factor
+
+          </h4>
+
+          <p id="criticalFactor">
+
+            Not provided.
+
+          </p>
+
+        </div>
+
+
+
+        <div class="mini-card">
+
+          <h4>
+
+            💪 Strongest Argument
+
+          </h4>
+
+          <p id="strongestArgument">
+
+            Not provided.
+
+          </p>
+
+        </div>
+
+
+
+        <div class="mini-card">
+
+          <h4>
+
+            🔍 Overlooked Factor
+
+          </h4>
+
+          <p id="overlookedFactor">
+
+            Not provided.
+
+          </p>
+
+        </div>
+
+
+
+        <div class="mini-card">
+
+          <h4>
+
+            🔄 What Could Change It?
+
+          </h4>
+
+          <p id="changeMind">
+
+            Not provided.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =====================
+
+         COUNCIL RESPONSES
+
+         ===================== -->
+
+    <div class="card">
+
+      <div class="card-title-row">
+
+        <div>
+
+          <h2 class="card-title">
+
+            Council Reasoning
+
+          </h2>
+
+          <div class="card-subtitle">
+
+            Independent responses from every council member.
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+
+        id="councilResponses"
+
+        class="council-grid"
+
+      ></div>
+
+    </div>
+
+
+
+    <!-- =====================
+
+         PERFORMANCE
+
+         ===================== -->
+
+    <div class="card">
+
+      <div class="card-title-row">
+
+        <div>
+
+          <h2 class="card-title">
+
+            Session Performance
+
+          </h2>
+
+          <div class="card-subtitle">
+
+            Timing information from this council session.
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="performance">
+
+        <div class="performance-item">
+
+          <div
+
+            class="performance-value"
+
+            id="councilTime"
+
+          >
+
+            —
+
+          </div>
+
+          <div class="performance-label">
+
+            Council
+
+          </div>
+
+        </div>
+
+        <div class="performance-item">
+
+          <div
+
+            class="performance-value"
+
+            id="chairmanTime"
+
+          >
+
+            —
+
+          </div>
+
+          <div class="performance-label">
+
+            Chairman
+
+          </div>
+
+        </div>
+
+        <div class="performance-item">
+
+          <div
+
+            class="performance-value"
+
+            id="totalTime"
+
+          >
+
+            —
+
+          </div>
+
+          <div class="performance-label">
+
+            Total
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <footer>
+
+    AI Council · Multi-model reasoning engine
+
+  </footer>
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+
+   MODELS
+
+   ===================================================== */
+
+const AVAILABLE_MODELS = [
+
+  {
+
+    id:
+
+      "meta-llama/Llama-3.1-8B-Instruct:novita",
+
+    name:
+
+      "Llama 3.1 8B — Novita"
+
+  },
+
+  {
+
+    id:
+
+      "deepseek-ai/DeepSeek-V3.1:novita",
+
+    name:
+
+      "DeepSeek V3.1 — Novita"
+
+  },
+
+  {
+
+    id:
+
+      "openai/gpt-oss-120b:groq",
+
+    name:
+
+      "GPT-OSS 120B — Groq"
+
+  },
+
+  {
+
+    id:
+
+      "google/gemma-3-12b-it:deepinfra",
+
+    name:
+
+      "Gemma 3 12B — DeepInfra"
+
+  }
+
+];
+
+let selectedModelIds = [];
+
+
+
+/* =====================================================
+
+   HELPERS
+
+   ===================================================== */
+
+const $ = id =>
+
+  document.getElementById(id);
+
+
+
+function formatTime(ms) {
+
+  if (
+
+    ms === undefined ||
+
+    ms === null
+
+  ) {
+
+    return "—";
+
+  }
+
+  return (
+
+    (Number(ms) / 1000)
+
+      .toFixed(1) + "s"
+
+  );
+
+}
+
+
+
+/* =====================================================
+
+   QUESTION COUNTER
+
+   ===================================================== */
+
+$("question").addEventListener(
+
+  "input",
+
+  () => {
+
+    $("charCount").textContent =
+
+      `${$("question").value.length} / 3000`;
+
+  }
+
+);
+
+
+
+/* =====================================================
+
+   EXAMPLES
+
+   ===================================================== */
+
+function useExample(button) {
+
+  $("question").value =
+
+    button.textContent.trim();
+
+  $("question").dispatchEvent(
+
+    new Event("input")
+
+  );
+
+  $("question").focus();
+
+}
+
+
+
+/* =====================================================
+
+   MODEL INITIALIZATION
+
+   ===================================================== */
+
+function initializeModels() {
+
+  selectedModelIds =
+
+    AVAILABLE_MODELS.map(
+
+      model => model.id
+
+    );
+
+  renderModelSlots();
+
+}
+
+
+
+/* =====================================================
+
+   MODEL RENDER
+
+   ===================================================== */
+
+function renderModelSlots() {
+
+  const container =
+
+    $("modelSlots");
+
+  container.innerHTML = "";
+
+  selectedModelIds.forEach(
+
+    (selectedId, index) => {
+
+      const slot =
+
+        document.createElement("div");
+
+      slot.className =
+
+        "model-slot";
+
+
+
+      const top =
+
+        document.createElement("div");
+
+      top.className =
+
+        "model-slot-top";
+
+
+
+      const modelIndex =
+
+        document.createElement("div");
+
+      modelIndex.className =
+
+        "model-index";
+
+
+
+      const dot =
+
+        document.createElement("span");
+
+      dot.className =
+
+        "model-dot";
+
+
+
+      const label =
+
+        document.createElement("span");
+
+      label.textContent =
+
+        `COUNCIL ${index + 1}`;
+
+
+
+      modelIndex.appendChild(dot);
+
+      modelIndex.appendChild(label);
+
+
+
+      const ready =
+
+        document.createElement("span");
+
+      ready.className =
+
+        "ready";
+
+      ready.textContent =
+
+        "● Ready";
+
+
+
+      top.appendChild(modelIndex);
+
+      top.appendChild(ready);
+
+
+
+      const select =
+
+        document.createElement("select");
+
+      select.dataset.index =
+
+        index;
+
+
+
+      const empty =
+
+        document.createElement("option");
+
+      empty.value = "";
+
+      empty.textContent =
+
+        "Select a model...";
+
+      select.appendChild(empty);
+
+
+
+      AVAILABLE_MODELS.forEach(
+
+        model => {
+
+          const option =
+
+            document.createElement("option");
+
+          option.value =
+
+            model.id;
+
+          option.textContent =
+
+            model.name;
+
+          if (
+
+            model.id === selectedId
+
+          ) {
+
+            option.selected =
+
+              true;
+
+          }
+
+          select.appendChild(option);
+
+        }
+
+      );
+
+
+
+      select.addEventListener(
+
+        "change",
+
+        event => {
+
+          const i =
+
+            Number(
+
+              event.target.dataset.index
+
+            );
+
+          selectedModelIds[i] =
+
+            event.target.value;
+
+          selectedModelIds =
+
+            selectedModelIds.filter(Boolean);
+
+          renderModelSlots();
+
+        }
+
+      );
+
+
+
+      slot.appendChild(top);
+
+      slot.appendChild(select);
+
+
+
+      if (
+
+        selectedModelIds.length > 1
+
+      ) {
+
+        const remove =
+
+          document.createElement("button");
+
+        remove.className =
+
+          "remove-model";
+
+        remove.textContent =
+
+          "Remove model";
+
+        remove.onclick =
+
+          () => {
+
+            selectedModelIds.splice(
+
+              index,
+
+              1
+
+            );
+
+            renderModelSlots();
+
+          };
+
+        slot.appendChild(remove);
+
+      }
+
+
+
+      container.appendChild(slot);
+
+    }
+
+  );
+
+
+
+  $("modelCount").textContent =
+
+    `${selectedModelIds.length} / 4 SELECTED`;
+
+
+
+  $("addModelBtn").disabled =
+
+    selectedModelIds.length >= 4;
+
+}
+
+
+
+/* =====================================================
+
+   ADD MODEL
+
+   ===================================================== */
+
+function addModelSlot() {
+
+  if (
+
+    selectedModelIds.length >= 4
+
+  ) {
+
+    return;
+
+  }
+
+
+
+  const unused =
+
+    AVAILABLE_MODELS.find(
+
+      model =>
+
+        !selectedModelIds.includes(
+
+          model.id
+
+        )
+
+    );
+
+
+
+  if (unused) {
+
+    selectedModelIds.push(
+
+      unused.id
+
+    );
+
+  }
+
+
+
+  renderModelSlots();
+
+}
+
+
+
+/* =====================================================
+
+   SELECTED MODELS
+
+   ===================================================== */
+
+function getSelectedModels() {
+
+  return [
+
+    ...new Set(
+
+      selectedModelIds.filter(Boolean)
+
+    )
+
+  ].slice(0, 4);
+
+}
+
+
+
+/* =====================================================
+
+   VOICE RECORDING
+
+   ===================================================== */
+
+let mediaRecorder = null;
+
+let audioChunks = [];
+
+let isRecording = false;
+
+
+
+async function toggleRecording() {
+
+  if (isRecording) {
+
+    stopRecording();
+
+  } else {
+
+    await startRecording();
+
+  }
+
+}
+
+
+
+async function startRecording() {
+
+  try {
+
+    const stream =
+
+      await navigator.mediaDevices
+
+        .getUserMedia({
+
+          audio: true
+
+        });
+
+
+
+    mediaRecorder =
+
+      new MediaRecorder(stream);
+
+
+
+    audioChunks = [];
+
+
+
+    mediaRecorder.ondataavailable =
+
+      event => {
+
+        if (
+
+          event.data.size > 0
+
+        ) {
+
+          audioChunks.push(
+
+            event.data
+
+          );
+
+        }
+
+      };
+
+
+
+    mediaRecorder.onstop =
+
+      sendAudioToWhisper;
+
+
+
+    mediaRecorder.start();
+
+
+
+    isRecording = true;
+
+
+
+    $("voiceBtn").textContent =
+
+      "⏹ Stop Recording";
+
+    $("voiceBtn").classList.add(
+
+      "danger"
+
+    );
+
+
+
+    $("status").textContent =
+
+      "🎤 Listening... Speak your question.";
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    $("status").textContent =
+
+      "❌ Microphone access failed.";
+
+  }
+
+}
+
+
+
+function stopRecording() {
+
+  if (!mediaRecorder) {
+
+    return;
+
+  }
+
+
+
+  mediaRecorder.stop();
+
+
+
+  mediaRecorder
+
+    .stream
+
+    .getTracks()
+
+    .forEach(
+
+      track =>
+
+        track.stop()
+
+    );
+
+
+
+  isRecording = false;
+
+
+
+  $("voiceBtn").textContent =
+
+    "🎤 Start Voice";
+
+  $("voiceBtn").classList.remove(
+
+    "danger"
+
+  );
+
+}
+
+
+
+/* =====================================================
+
+   TRANSCRIPTION
+
+   ===================================================== */
+
+async function sendAudioToWhisper() {
+
+  const audioBlob =
+
+    new Blob(
+
+      audioChunks,
+
+      {
+
+        type: "audio/webm"
+
+      }
+
+    );
+
+
+
+  $("status").textContent =
+
+    "🎤 Transcribing your question...";
+
+
+
+  try {
+
+    const response =
+
+      await fetch(
+
+        "/api/transcribe",
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+
+              "audio/webm"
+
+          },
+
+          body: audioBlob
+
+        }
+
+      );
+
+
+
+    const data =
+
+      await response.json();
+
+
+
+    if (!data.success) {
+
+      throw new Error(
+
+        data.error ||
+
+        "Transcription failed"
+
+      );
+
+    }
+
+
+
+    $("question").value =
+
+      data.text;
+
+
+
+    $("question").dispatchEvent(
+
+      new Event("input")
+
+    );
+
+
+
+    $("status").textContent =
+
+      "✅ Voice transcribed successfully.";
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    $("status").textContent =
+
+      "❌ Transcription failed: " +
+
+      error.message;
+
+  }
+
+}
+
+
+
+/* =====================================================
+
+   SESSION UI
+
+   ===================================================== */
+
+function startSessionUI() {
+
+  $("session")
+
+    .classList
+
+    .add("active");
+
+
+
+  $("stepCouncil")
+
+    .classList
+
+    .add("active");
+
+  $("stepChairman")
+
+    .classList
+
+    .remove("active");
+
+  $("stepVerdict")
+
+    .classList
+
+    .remove("active");
+
+}
+
+
+
+function chairmanSessionUI() {
+
+  $("stepCouncil")
+
+    .classList
+
+    .remove("active");
+
+  $("stepChairman")
+
+    .classList
+
+    .add("active");
+
+}
+
+
+
+function verdictSessionUI() {
+
+  $("stepChairman")
+
+    .classList
+
+    .remove("active");
+
+  $("stepVerdict")
+
+    .classList
+
+    .add("active");
+
+}
+
+
+
+function finishSessionUI() {
+
+  setTimeout(
+
+    () => {
+
+      $("session")
+
+        .classList
+
+        .remove("active");
+
+    },
+
+    500
+
+  );
+
+}
+
+
+
+/* =====================================================
+
+   GET VERDICT
+
+   ===================================================== */
+
+async function getVerdict() {
+
+  const question =
+
+    $("question")
+
+      .value
+
+      .trim();
+
+
+
+  if (!question) {
+
+    $("status").textContent =
+
+      "⚠️ Enter a question first.";
+
+    $("question").focus();
+
+    return;
+
+  }
+
+
+
+  const models =
+
+    getSelectedModels();
+
+
+
+  if (!models.length) {
+
+    $("status").textContent =
+
+      "⚠️ Select at least one council model.";
+
+    return;
+
+  }
+
+
+
+  const verdictBtn =
+
+    $("verdictBtn");
+
+
+
+  verdictBtn.disabled =
+
+    true;
+
+  $("voiceBtn").disabled =
+
+    true;
+
+
+
+  verdictBtn.textContent =
+
+    "🧠 Council Thinking...";
+
+
+
+  $("status").textContent =
+
+    `🧠 ${models.length} models are analyzing your question...`;
+
+
+
+  $("result").classList.remove(
+
+    "result-visible"
+
+  );
+
+
+
+  startSessionUI();
+
+
+
+  try {
+
+    const response =
+
+      await fetch(
+
+        "/api/verdict",
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+
+              "application/json"
+
+          },
+
+          body:
+
+            JSON.stringify({
+
+              question,
+
+              models
+
+            })
+
+        }
+
+      );
+
+
+
+    const data =
+
+      await response.json();
+
+
+
+    if (!data.success) {
+
+      throw new Error(
+
+        data.error ||
+
+        "Verdict failed"
+
+      );
+
+    }
+
+
+
+    chairmanSessionUI();
+
+
+
+    await new Promise(
+
+      resolve =>
+
+        setTimeout(resolve, 350)
+
+    );
+
+
+
+    displayVerdict(data);
+
+
+
+    verdictSessionUI();
+
+
+
+    $("status").textContent =
+
+      "✅ Council verdict completed.";
+
+
+
+    finishSessionUI();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    $("status").textContent =
+
+      "❌ Verdict failed: " +
+
+      error.message;
+
+    $("session")
+
+      .classList
+
+      .remove("active");
+
+  }
+
+  finally {
+
+    verdictBtn.disabled =
+
+      false;
+
+    $("voiceBtn").disabled =
+
+      false;
+
+    verdictBtn.textContent =
+
+      "⚡ Ask the Council";
+
+  }
+
+}
+
+
+
+/* =====================================================
+
+   DISPLAY VERDICT
+
+   ===================================================== */
+
+function displayVerdict(data) {
+
+  $("result")
+
+    .classList
+
+    .add("result-visible");
+
+
+
+  const chairman =
+
+    data.chairman?.result || {};
+
+
+
+  /* =====================
+
+     FINAL VERDICT
+
+     ===================== */
+
+  $("finalVerdict").textContent =
+
+    chairman.verdict ||
+
+    "No verdict generated.";
+
+
+
+  /* =====================
+
+     CONFIDENCE
+
+     ===================== */
+
+  const confidence =
+
+    Number(
+
+      chairman.confidence ?? 0
+
+    );
+
+
+
+  $("confidenceBadge").textContent =
+
+    `Confidence — ${confidence}%`;
+
+
+
+  /* =====================
+
+     AGREEMENTS
+
+     ===================== */
+
+  renderList(
+
+    "agreements",
+
+    chairman.agreements
+
+  );
+
+
+
+  /* =====================
+
+     DISAGREEMENTS
+
+     ===================== */
+
+  renderList(
+
+    "disagreements",
+
+    chairman.disagreements
+
+  );
+
+
+
+  /* =====================
+
+     CHAIRMAN DATA
+
+     ===================== */
+
+  $("criticalFactor").textContent =
+
+    chairman.critical_factor ||
+
+    "Not provided.";
+
+
+
+  $("strongestArgument").textContent =
+
+    chairman.strongest_argument ||
+
+    "Not provided.";
+
+
+
+  $("overlookedFactor").textContent =
+
+    chairman.overlooked_factor ||
+
+    "Not provided.";
+
+
+
+  $("changeMind").textContent =
+
+    chairman.what_would_change_my_mind ||
+
+    "Not provided.";
+
+
+
+  /* =====================
+
+     COUNCIL RESPONSES
+
+     ===================== */
+
+  const container =
+
+    $("councilResponses");
+
+
+
+  container.innerHTML = "";
+
+
+
+  if (
+
+    Array.isArray(data.council)
+
+  ) {
+
+    data.council.forEach(
+
+      (member, index) => {
+
+        const card =
+
+          document.createElement("div");
+
+        card.className =
+
+          "council-model";
+
+
+
+        const header =
+
+          document.createElement("div");
+
+        header.className =
+
+          "council-model-header";
+
+
+
+        const nameWrap =
+
+          document.createElement("div");
+
+        nameWrap.className =
+
+          "model-name-wrap";
+
+
+
+        const color =
+
+          document.createElement("span");
+
+        color.className =
+
+          "model-color";
+
+
+
+        const name =
+
+          document.createElement("div");
+
+        name.className =
+
+          "model-name";
+
+        name.textContent =
+
+          getModelDisplayName(
+
+            member.model
+
+          );
+
+
+
+        nameWrap.appendChild(color);
+
+        nameWrap.appendChild(name);
+
+
+
+        const status =
+
+          document.createElement("span");
+
+        status.className =
+
+          "model-status";
+
+        status.textContent =
+
+          member.success
+
+            ? "Completed"
+
+            : "Failed";
+
+
+
+        header.appendChild(nameWrap);
+
+        header.appendChild(status);
+
+
+
+        const answer =
+
+          document.createElement("div");
+
+        answer.className =
+
+          "model-answer";
+
+
+
+        answer.textContent =
+
+          member.success
+
+            ? (
+
+                member.result?.answer ||
+
+                "No response."
+
+              )
+
+            : (
+
+                "❌ Model failed: " +
+
+                (
+
+                  member.error ||
+
+                  "Unknown error"
+
+                )
+
+              );
+
+
+
+        card.appendChild(header);
+
+        card.appendChild(answer);
+
+
+
+        container.appendChild(card);
+
+      }
+
+    );
+
+  }
+
+
+
+  /* =====================
+
+     TIMING
+
+     ===================== */
+
+  const timing =
+
+    data.timing || {};
+
+
+
+  $("councilTime").textContent =
+
+    formatTime(
+
+      timing.councilTime
+
+    );
+
+
+
+  $("chairmanTime").textContent =
+
+    formatTime(
+
+      timing.chairmanTime
+
+    );
+
+
+
+  $("totalTime").textContent =
+
+    formatTime(
+
+      timing.totalTime
+
+    );
+
+
+
+  setTimeout(
+
+    () => {
+
+      $("result").scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+
+      });
+
+    },
+
+    150
+
+  );
+
+}
+
+
+
+/* =====================================================
+
+   MODEL DISPLAY NAMES
+
+   ===================================================== */
+
+function getModelDisplayName(model) {
+
+  const found =
+
+    AVAILABLE_MODELS.find(
+
+      item =>
+
+        item.id === model
+
+    );
+
+
+
+  return found
+
+    ? found.name
+
+    : model;
+
+}
+
+
+
+/* =====================================================
+
+   LIST RENDER
+
+   ===================================================== */
+
+function renderList(
+
+  elementId,
+
+  items
+
+) {
+
+  const container =
+
+    $(elementId);
+
+
+
+  container.innerHTML =
+
+    "";
+
+
+
+  if (
+
+    !Array.isArray(items) ||
+
+    !items.length
+
+  ) {
+
+    container.innerHTML =
+
+      `<p>None identified.</p>`;
+
+    return;
+
+  }
+
+
+
+  const ul =
+
+    document.createElement("ul");
+
+
+
+  items.forEach(
+
+    item => {
+
+      const li =
+
+        document.createElement("li");
+
+      li.textContent =
+
+        item;
+
+      ul.appendChild(li);
+
+    }
+
+  );
+
+
+
+  container.appendChild(ul);
+
+}
+
+
+
+/* =====================================================
+
+   COPY VERDICT
+
+   ===================================================== */
+
+async function copyVerdict() {
+
+  const text =
+
+    $("finalVerdict")
+
+      .textContent
+
+      .trim();
+
+
+
+  if (!text) {
+
+    return;
+
+  }
+
+
+
+  try {
+
+    await navigator.clipboard.writeText(
+
+      text
+
+    );
+
+
+
+    $("status").textContent =
+
+      "📋 Verdict copied to clipboard.";
+
+  }
+
+  catch {
+
+    $("status").textContent =
+
+      "❌ Could not copy verdict.";
+
+  }
+
+}
+
+
+
+/* =====================================================
+
+   SPEAK VERDICT
+
+   ===================================================== */
+
+async function speakVerdict() {
+
+  const verdict =
+
+    $("finalVerdict")
+
+      .textContent
+
+      .trim();
+
+
+
+  if (!verdict) {
+
+    return;
+
+  }
+
+
+
+  const speakBtn =
+
+    $("speakBtn");
+
+
+
+  speakBtn.disabled =
+
+    true;
+
+
+
+  speakBtn.textContent =
+
+    "🔊 Generating Audio...";
+
+
+
+  $("status").textContent =
+
+    "🔊 Chairman is generating the voice...";
+
+
+
+  try {
+
+    const response =
+
+      await fetch(
+
+        "/api/tts",
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+
+              "application/json"
+
+          },
+
+          body:
+
+            JSON.stringify({
+
+              text: verdict
+
+            })
+
+        }
+
+      );
+
+
+
+    const data =
+
+      await response.json();
+
+
+
+    if (!data.success) {
+
+      throw new Error(
+
+        data.error ||
+
+        "TTS failed"
+
+      );
+
+    }
+
+
+
+    const audio =
+
+      new Audio(
+
+        data.audioUrl
+
+      );
+
+
+
+    audio.onplay =
+
+      () => {
+
+        speakBtn.textContent =
+
+          "🔊 Playing...";
+
+        $("status").textContent =
+
+          "🔊 Chairman is speaking...";
+
+      };
+
+
+
+    audio.onended =
+
+      () => {
+
+        speakBtn.disabled =
+
+          false;
+
+        speakBtn.textContent =
+
+          "🔊 Speak Verdict";
+
+        $("status").textContent =
+
+          "✅ Chairman finished speaking.";
+
+      };
+
+
+
+    audio.onerror =
+
+      () => {
+
+        speakBtn.disabled =
+
+          false;
+
+        speakBtn.textContent =
+
+          "🔊 Speak Verdict";
+
+        $("status").textContent =
+
+          "❌ Could not play generated audio.";
+
+      };
+
+
+
+    await audio.play();
+
+  }
+
+  catch (error) {
+
+    console.error(
+
+      "TTS error:",
+
+      error
+
+    );
+
+
+
+    speakBtn.disabled =
+
+      false;
+
+    speakBtn.textContent =
+
+      "🔊 Speak Verdict";
+
+
+
+    $("status").textContent =
+
+      "❌ Voice generation failed: " +
+
+      error.message;
+
+  }
+
+}
+
+
+
+/* =====================================================
+
+   START
+
+   ===================================================== */
+
+initializeModels();
+
+</script>
+
+</body>
+
+</html>

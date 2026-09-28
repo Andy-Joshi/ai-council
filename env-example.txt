@@ -1,0 +1,4 @@
+HF_TOKEN=your_huggingface_token_here
+API_KEYS=your_api_key_here
+PORT=4000
+
