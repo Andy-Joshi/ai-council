@@ -62,12 +62,12 @@ The system is designed to make the reasoning process more transparent rather tha
                             ▼
                   ┌──────────────────┐
 
-
-
-<img width="1573" height="936" alt="image" src="https://github.com/user-attachments/assets/0de18d79-a00e-44df-aed6-819f8d98fe14" />
-<img width="1283" height="525" alt="image" src="https://github.com/user-attachments/assets/a079d49b-3b47-4487-8b9e-8ba340d94f49" />
-
-
-
                   │   Final Verdict  │
                   └──────────────────┘
+## 🖥️ Interface
+
+![AI Council Interface](https://github.com/user-attachments/assets/0de18d79-a00e-44df-aed6-819f8d98fe14)
+
+## 🧑‍⚖️ Final Verdict
+
+![AI Council Verdict](https://github.com/user-attachments/assets/a079d49b-3b47-4487-8b9e-8ba340d94f49)
